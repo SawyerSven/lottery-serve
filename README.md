@@ -1,14 +1,33 @@
-# xmonitor-server
+# 基于mysql+egg.js的抽奖管理
+
+
+## 更新记录：
+
+- 2019.05.16
+  - 管理后台
+    - [x] 奖品列表的增删改
+    - [x] 奖品图片的上传
+  - Api接口
+    - [x] 转盘抽奖的奖品列表和中奖信息获取
+    - [x] 刮刮卡的中奖信息获取 
 
 
 
-## QuickStart
+## 功能规划
+
+  - 后台管理
+    - [ ] 用户管理及权限管理
+    - [ ] 中奖者信息管理
+    - [ ] 移动端页面背景图及文案管理
+    - [ ] 抽奖类型管理
+    - [ ] 中奖率管理
+    - [ ] ...
+
+## 开始使用
 
 <!-- add docs here for user -->
 
-see [egg docs][egg] for more detail.
-
-### Development
+### 开发
 
 ```bash
 $ npm i
@@ -16,18 +35,9 @@ $ npm run dev
 $ open http://localhost:7001/
 ```
 
-### Deploy
+### 部署
 
 ```bash
 $ npm start
 $ npm stop
 ```
-
-### npm scripts
-
-- Use `npm run lint` to check code style.
-- Use `npm test` to run unit test.
-- Use `npm run autod` to auto detect dependencies upgrade, see [autod](https://www.npmjs.com/package/autod) for more detail.
-
-
-[egg]: https://eggjs.org
