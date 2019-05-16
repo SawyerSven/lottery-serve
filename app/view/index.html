@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="Cache-Control" content="no-siteapp">
+    <title>抽奖活动管理平台</title>
+
+
+    <!--[if lt IE 9]>
+    <meta http-equiv="refresh" content="0;ie.html" />
+    <![endif]-->
+
+    <link rel="shortcut icon" href="favicon.ico">
+    <link href="/public/css\bootstrap.min.css?v=3.3.6" rel="stylesheet">
+    <link href="/public/css\style.min.css?v=4.1.0" rel="stylesheet">
+    <link rel="stylesheet" href="/public/css/ssy.css">
+</head>
+
+<body class="fixed-sidebar full-height-layout gray-bg" style="overflow:hidden">
+    <div id="wrapper">
+        <!--左侧导航开始-->
+        <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="nav-close"><i class="fa fa-times-circle"></i>
+            </div>
+            <div class="sidebar-collapse">
+                <ul class="nav" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element">
+                            <span><img alt="image" class="img-circle" src="/public/img\profile_small.jpg"></span>
+                            <a data-toggle="dropdown" class="dropdown-toggle" href="#">
+                                <span class="clear">
+                                    <span class="block m-t-xs"><strong class="font-bold">admin</strong></span>
+                                    <span class="text-muted text-xs block">管理员</span>
+                                </span>
+                            </a>
+                        </div>
+                    </li>
+                    <li>
+                        <!-- <a href="#">
+                            <i class="fa fa-home"></i>
+                            <span class="nav-label">奖项管理</span>
+                            <span class="fa arrow"></span>
+                        </a> -->
+                        <!-- <ul class="nav nav-second-level"> -->
+                    <li>
+                        <a class="J_menuItem" href="/lottery" data-index="0">奖项列表</a>
+                    </li>
+                    <!-- </ul> -->
+
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!--左侧导航结束-->
+        <!--右侧部分开始-->
+        <div id="page-wrapper" class="gray-bg dashbard-1">
+            <header class="ssy-header">抽奖管理_奖品列表</header>
+            <div class="ssy-card">
+                <div class="ssy-control">
+                    <div class="btn btn-info" data-toggle="modal" data-target="#myModal">新增奖品</div>
+                </div>
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>奖品ID</th>
+                            <th>奖品名称</th>
+                            <th>奖品图片</th>
+                            <th>奖品数量</th>
+                            <th>修改时间</th>
+                            <th>操作</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <%data.forEach(function(item){%>
+                        <tr>
+                            <td><%=item.id%></td>
+
+                            <td><%=item.text%></td>
+                            <td>
+                                <%-"<img style='width:120px;height:40px;' src="+item.img+">"%>
+                            </td>
+                            <td><%=item.num%></td>
+                            <td><%=item.updated_at%></td>
+                            <td>
+                                <%-"<span class='btn btn-primary' onclick='showEdit("+item.id+")'>修改</span>"%>
+                                <%-"<span class='btn btn-warning' onclick='showDeleteModal("+item.id+")'>删除</span>"%>
+                            </td>
+                        </tr>
+                        <%})%>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <!--右侧部分结束-->
+        <div class="modal fade" tabindex="-1" role="dialog" id="myModal">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form action="/lottery" method="POST" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">新增奖品</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">奖品名称</label>
+                                <input name="text" type="text" class="form-control" id="exampleInputEmail1"
+                                    placeholder="奖品名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">奖品数量</label>
+                                <input name="num" type="number" class="form-control" id="exampleInputPassword1"
+                                    placeholder="奖品数量">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">奖品图片</label>
+                                <input name="image" type="file" class="form-control" id="exampleInputPassword1"
+                                    placeholder="奖品数量">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">新增</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+
+        <div class="modal fade" tabindex="-1" role="dialog" id="changeModel">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <form id="editForm" action="/lottery" method="post" enctype="multipart/form-data">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">修改奖品</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="exampleInputEmail1">奖品名称</label>
+                                <input id="name" name="text" type="text" class="form-control" id="exampleInputEmail1"
+                                    placeholder="奖品名称">
+                            </div>
+                            <div class="form-group">
+                                <label for="asad">奖品数量</label>
+                                <input id="num" name="num" type="number" class="form-control" id="asdasd"
+                                    placeholder="奖品数量">
+                            </div>
+                            <div class="form-group">
+                                <label for="exampleInputPassword1">奖品图片</label>
+                                <input name="image" type="file" class="form-control" id="exampleInputPassword1"
+                                    placeholder="奖品数量">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-primary">修改</button>
+                        </div>
+                    </form>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <div class="modal fade" id="deleteModel" tabindex="-1" role="dialog">
+            <form id="deleteForm" action="/lottery/delete" method="post" enctype="application/x-www-form-urlencoded">
+                <div class="modal-dialog " role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span
+                                    aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title">删除奖品</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>是否要删除此奖品？数据删除后无法恢复</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-warning">确定删除</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script src="/public/js\jquery.min.js?v=2.1.4"></script>
+    <script src="/public/js\bootstrap.min.js?v=3.3.6"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+
+    <script>
+        function showEdit(e) {
+            console.log(e);
+            $('#changeModel').modal();
+            axios.get('/lottery/' + e).then((res) => {
+                console.log(res);
+                $('#name').val(res.data.data.text)
+                $('#num').val(res.data.data.num)
+                $("#editForm").attr('action', '/lottery/' + e)
+            })
+        }
+
+        function showDeleteModal(e) {
+            console.log(e);
+            $("#deleteModel").modal();
+            $('#deleteForm').attr('action', '/lottery/delete/' + e);
+
+        }
+    </script>
+</body>
+
+</html>
